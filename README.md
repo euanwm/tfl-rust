@@ -30,7 +30,7 @@ Instantiate the `Client` using:
 
 ```rust
 use tfl_api_wrapper::{Client, RequestBuilder};
-let client = Client::new(env::var("APP_KEY").unwrap().into());
+let client = Client::new(std::env::var("APP_KEY").unwrap());
 ```
 Here `APP_KEY` could be either `Primary key` or `Secondary key`.
 
@@ -38,7 +38,11 @@ Here `APP_KEY` could be either `Primary key` or `Secondary key`.
 
 Get the API version:
 ```rust
-let ver = client.api_version().fetch().await.unwrap();
+async fn it_is_version_1() {
+    use tfl_api_wrapper::{Client, RequestBuilder};
+    let client = Client::new(std::env::var("APP_KEY").unwrap());
+    let ver = client.api_version().fetch().await.unwrap();
+}
 ```
 
 ## Tests
