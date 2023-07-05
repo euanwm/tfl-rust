@@ -1,18 +1,21 @@
 #[cfg(test)]
 mod tests {
-    use std::env;
-
+    use std::string::String;
     use tfl_api_wrapper::{Client, RequestBuilder};
 
-    fn get_client() -> Client {
-        Client::new(env::var("APP_KEY").unwrap())
+    const VERSION: &str = "master.5754\r\n";
+
+    // APP_KEY=478e5d2a343545d28ef9d3141038d603
+
+    fn get_client(app_key: String) -> Client {
+        Client::new(app_key)
     }
 
     #[tokio::test]
     async fn it_is_version_1() {
-        let client = get_client();
+        let app_key = "478e5d2a343545d28ef9d3141038d603".to_string();
+        let client = get_client(app_key);
         let ver = client.api_version().fetch().await.unwrap();
-        println!("aaa {:?}", ver);
-       assert_eq!(ver.version, "master.5753\r\n");
+        assert_eq!(ver.version, VERSION, "Version is not {}", VERSION);
     }
 }
